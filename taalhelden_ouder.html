@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taalhelden – Ouders</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #F0F2F5; color: #1a1a1a; }
+
+#login-scherm { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+.login-kaart { background: white; border-radius: 16px; padding: 36px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); max-width: 400px; width: 100%; }
+.login-kaart .logo { font-size: 36px; margin-bottom: 12px; }
+.login-kaart h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.login-kaart .sub { font-size: 13px; color: #888; margin-bottom: 24px; line-height: 1.4; }
+.login-veld { margin-bottom: 14px; }
+.login-veld label { font-size: 12px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 5px; }
+.login-veld input, .login-veld select { width: 100%; border: 1.5px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 14px; font-family: inherit; outline: none; background: #fafafa; transition: border-color 0.2s; }
+.login-veld input:focus, .login-veld select:focus { border-color: #F5A623; background: white; }
+.login-knop { width: 100%; background: #F5A623; color: white; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; margin-top: 4px; }
+.login-knop:hover { background: #D4890F; }
+.login-fout { color: #e55; font-size: 13px; margin-top: 10px; display: none; padding: 8px 12px; background: #fff0f0; border-radius: 6px; }
+.pin-hint { font-size: 12px; color: #aaa; margin-top: 6px; line-height: 1.4; }
+.terug-link { display: block; text-align: center; margin-top: 16px; font-size: 13px; color: #888; text-decoration: none; }
+
+#hoofd { display: none; min-height: 100vh; padding-bottom: 48px; }
+nav { background: #F5A623; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+nav .welkom { font-size: 14px; color: rgba(255,255,255,0.9); }
+nav .welkom strong { color: white; }
+.uitloggen { font-size: 12px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35); border-radius: 6px; padding: 5px 10px; cursor: pointer; color: white; }
+
+#inhoud { max-width: 780px; margin: 0 auto; padding: 24px 16px; }
+.laad-status { font-size: 12px; color: #aaa; margin-bottom: 12px; text-align: right; min-height: 18px; }
+
+/* MIJN TRAJECT (ouder) */
+.traject-kaart { background: white; border-radius: 12px; border-left: 5px solid #F5A623; padding: 16px 18px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+.traject-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.traject-icoon { font-size: 26px; min-width: 34px; text-align: center; line-height: 1; }
+.traject-naam { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+.traject-bottom { display: grid; grid-template-columns: 1fr 220px; gap: 14px; align-items: start; }
+@media (max-width: 640px) { .traject-bottom { grid-template-columns: 1fr; } }
+.balk-wrap { flex: 1; display: flex; gap: 4px; }
+.balk-stap { flex: 1; height: 18px; border-radius: 4px; background: #E8EAF0; }
+.balk-stap.actief { background: #F5A623; }
+.traject-balk-rij { display: flex; align-items: center; gap: 12px; }
+.fase-label { font-size: 11px; color: #888; min-width: 90px; text-align: right; flex-shrink: 0; }
+.feedback-kolom { width: 220px; }
+@media (max-width: 640px) { .feedback-kolom { width: 100%; } }
+.feedback-vak { padding: 8px 10px; background: #FFFBEA; border: 1.5px solid #F5D97A; border-radius: 8px; }
+.feedback-vak .feedback-label { font-size: 9px; font-weight: 700; color: #8a6d00; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+.feedback-vak .feedback-tekst { font-size: 12px; color: #4a3c00; line-height: 1.4; white-space: pre-wrap; }
+.feedback-vak .feedback-tekst.leeg { color: #b8a45a; font-style: italic; }
+
+.sectie-titel { font-size: 16px; font-weight: 700; margin: 28px 0 14px; display: flex; align-items: center; gap: 8px; }
+.subtitel { font-size: 13px; color: #888; margin-bottom: 16px; }
+
+/* VRAGEN STELLEN */
+.vr-kaart { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 1px 6px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.vr-tekst-veld { width: 100%; border: 1.5px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 14px; font-family: inherit; outline: none; background: #fafafa; resize: vertical; min-height: 80px; margin-bottom: 10px; }
+.vr-tekst-veld:focus { border-color: #F5A623; }
+.vr-verstuur-knop { background: #F5A623; color: white; border: none; border-radius: 8px; padding: 10px 22px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.vr-verstuur-knop:hover { background: #D4890F; }
+.vr-bev { font-size: 13px; color: #2BAF84; font-weight: 600; display: none; margin-left: 10px; }
+.vr-item { border-left: 4px solid #F5A623; background: #fffaf0; border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+.vr-item .vr-datum { font-size: 11px; color: #aaa; margin-bottom: 6px; }
+.vr-item .vr-vraag { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 8px; }
+.vr-item .vr-antwoord { font-size: 12px; color: #4a3c00; background: #FFFBEA; border: 1.5px solid #F5D97A; border-radius: 8px; padding: 8px 10px; white-space: pre-wrap; }
+.vr-item .vr-antwoord.leeg { color: #b8a45a; font-style: italic; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-scherm">
+  <div class="login-kaart">
+    <div class="logo">👪</div>
+    <h1>Ouders inloggen</h1>
+    <p class="sub">Log in met de naam, klas en pincode van je kind. Vraag de pincode aan je kind of de leerkracht.</p>
+    <div class="login-veld"><label>Naam van je kind</label><input type="text" id="in-naam" placeholder="Volledige naam van je kind…"></div>
+    <div class="login-veld">
+      <label>Klas</label>
+      <select id="in-klas">
+        <option value="">— Kies klas —</option>
+        <option value="wit">Wit</option><option value="zwart">Zwart</option><option value="roze">Roze</option>
+        <option value="oranje">Oranje</option><option value="paars">Paars</option><option value="mint">Mint</option>
+        <option value="rood">Rood</option><option value="blauw">Blauw</option><option value="geel">Geel</option>
+        <option value="groen">Groen</option><option value="goud">Goud</option><option value="zilver">Zilver</option>
+      </select>
+    </div>
+    <div class="login-veld">
+      <label>Pincode (4 cijfers)</label>
+      <input type="password" id="in-pin" maxlength="4" placeholder="····" inputmode="numeric" onkeydown="if(event.key==='Enter') inloggen()">
+      <p class="pin-hint">Dit is dezelfde pincode die je kind gebruikt om in te loggen.</p>
+    </div>
+    <button class="login-knop" onclick="inloggen()">Inloggen</button>
+    <p class="login-fout" id="login-fout">Naam, klas of pincode klopt niet. Vraag de juiste gegevens aan je kind of de leerkracht.</p>
+    <a class="terug-link" href="index.html">← Terug naar startpagina</a>
+  </div>
+</div>
+
+<!-- HOOFD -->
+<div id="hoofd">
+  <nav>
+    <div class="welkom">Traject van <strong id="nav-naam"></strong> · <span id="nav-klas"></span></div>
+    <button class="uitloggen" onclick="uitloggen()">↩ Uitloggen</button>
+  </nav>
+
+  <div id="inhoud">
+    <div class="laad-status" id="laad-status"></div>
+
+    <div class="sectie-titel">🧭 Mijn traject</div>
+    <p class="subtitel">Dit overzicht toont waar je kind nu staat voor elk doel, samen met feedback van de leerkracht.</p>
+    <div id="traject-container"></div>
+
+    <div class="sectie-titel">❓ Vragen stellen</div>
+    <p class="subtitel">Heb je een vraag voor de leerkracht? Stel ze hier — de leerkracht beantwoordt ze zo snel mogelijk.</p>
+    <div class="vr-kaart">
+      <textarea class="vr-tekst-veld" id="vr-nieuwe-vraag" placeholder="Typ hier je vraag…"></textarea>
+      <button class="vr-verstuur-knop" onclick="verstuurVraag()">Vraag versturen</button>
+      <span class="vr-bev" id="vr-bev">✅ Verstuurd!</span>
+    </div>
+    <div id="vragen-container"></div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD8o-_FR2mvEciuxDgkfY__XRF_VtAZwUM",
+  authDomain: "okan-leerdoelen.firebaseapp.com",
+  projectId: "okan-leerdoelen",
+  storageBucket: "okan-leerdoelen.firebasestorage.app",
+  messagingSenderId: "767763105714",
+  appId: "1:767763105714:web:4a79429a484b22a30d06ab"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const FASE_LABELS = ["Nog niet begonnen","Fase 1","Fase 2","Fase 3","Fase 4","Fase 5"];
+
+const TRAJECT_DOELEN = [
+  {id:'lezen',          icoon:'📖', naam:'Vlot en vloeiend lezen'},
+  {id:'schrijvendelen', icoon:'✉️', naam:'Schrijven om te delen'},
+  {id:'schrijvenleren', icoon:'📝', naam:'Schrijven om te leren / notities nemen'},
+  {id:'spreken',        icoon:'🗣️', naam:'Mondeling taalgebruik: spreken'},
+  {id:'interactie',     icoon:'💬', naam:'Mondeling taalgebruik: interactie'},
+  {id:'autonomie',      icoon:'🧭', naam:'Ondersteuning en autonomie'},
+];
+
+let huidigNaam='', huidigKlas='';
+let vragenLijst = [];
+
+window.inloggen = async function() {
+  const naam=document.getElementById('in-naam').value.trim();
+  const klas=document.getElementById('in-klas').value;
+  const pin=document.getElementById('in-pin').value.trim();
+  const fout=document.getElementById('login-fout');
+  fout.style.display='none';
+  if(!naam||!klas||pin.length!==4){fout.textContent='Vul naam, klas en een pincode van 4 cijfers in.';fout.style.display='block';return;}
+  try {
+    const ref=doc(db,'taalhelden_klassen',klas,'leerlingen',naam);
+    const snap=await getDoc(ref);
+    // Ouders kunnen geen nieuwe pincode instellen - enkel inloggen als die al bestaat
+    if(!snap.exists()||!snap.data().pincode){
+      fout.textContent='We vinden geen leerling met deze naam en klas, of er is nog geen pincode ingesteld. Vraag je kind om eerst zelf in te loggen.';
+      fout.style.display='block';
+      return;
+    }
+    if(snap.data().pincode===pin) startSessie(naam,klas);
+    else { fout.textContent='Naam, klas of pincode klopt niet.'; fout.style.display='block'; }
+  } catch(e){fout.textContent='Verbindingsfout.';fout.style.display='block';}
+};
+
+function startSessie(naam,klas){
+  huidigNaam=naam;huidigKlas=klas;
+  sessionStorage.setItem('taalhelden_ouder',JSON.stringify({naam,klas}));
+  document.getElementById('login-scherm').style.display='none';
+  document.getElementById('hoofd').style.display='block';
+  document.getElementById('nav-naam').textContent=naam;
+  document.getElementById('nav-klas').textContent=klas;
+  laadAlles();
+}
+
+window.uitloggen=function(){sessionStorage.removeItem('taalhelden_ouder');location.reload();};
+const sess=sessionStorage.getItem('taalhelden_ouder');
+if(sess){const s=JSON.parse(sess);startSessie(s.naam,s.klas);}
+
+function bouwTraject(trajectData){
+  const container = document.getElementById('traject-container');
+  container.innerHTML = '';
+  TRAJECT_DOELEN.forEach(d => {
+    const data = trajectData?.[d.id] || {fase:0, feedback:'', historiek:[]};
+    const fase = data.fase || 0;
+    const kaart = document.createElement('div');
+    kaart.className = 'traject-kaart';
+    kaart.innerHTML = `
+      <div class="traject-top"><span class="traject-icoon">${d.icoon}</span><span class="traject-naam">${d.naam}</span></div>
+      <div class="traject-bottom">
+        <div class="traject-balk-rij">
+          <div class="balk-wrap">${[1,2,3,4,5].map(i=>`<div class="balk-stap${i<=fase?' actief':''}"></div>`).join('')}</div>
+          <div class="fase-label">${FASE_LABELS[fase]}</div>
+        </div>
+        <div class="feedback-kolom">
+          <div class="feedback-vak">
+            <div class="feedback-label">✏️ Leerkracht</div>
+            <div class="feedback-tekst${data.feedback?'':' leeg'}">${data.feedback ? data.feedback : 'Nog geen feedback.'}</div>
+          </div>
+        </div>
+      </div>`;
+    container.appendChild(kaart);
+  });
+}
+
+function bouwVragen(){
+  const container = document.getElementById('vragen-container');
+  container.innerHTML = '';
+  vragenLijst.slice().reverse().forEach(v => {
+    const item = document.createElement('div');
+    item.className = 'vr-item';
+    item.innerHTML = `
+      <div class="vr-datum">${v.datum||''}</div>
+      <div class="vr-vraag">${v.vraag||''}</div>
+      <div class="vr-antwoord${v.antwoord?'':' leeg'}">${v.antwoord ? v.antwoord : 'Nog geen antwoord van de leerkracht.'}</div>`;
+    container.appendChild(item);
+  });
+}
+
+window.verstuurVraag = async function(){
+  const veld = document.getElementById('vr-nieuwe-vraag');
+  const tekst = veld.value.trim();
+  if(!tekst) return;
+  try {
+    const ref = doc(db,'taalhelden_klassen',huidigKlas,'vragen',huidigNaam);
+    const snap = await getDoc(ref);
+    const bestaand = snap.exists() ? snap.data() : {lijst:[]};
+    const lijst = bestaand.lijst || [];
+    lijst.push({ id: Date.now(), datum: new Date().toLocaleDateString('nl-BE'), vraag: tekst, antwoord: '' });
+    await setDoc(ref, {lijst});
+    vragenLijst = lijst;
+    bouwVragen();
+    veld.value='';
+    const bev=document.getElementById('vr-bev');
+    bev.style.display='inline'; setTimeout(()=>bev.style.display='none',3000);
+  } catch(e){ alert('Versturen mislukt.'); }
+};
+
+async function laadAlles(){
+  document.getElementById('laad-status').textContent='⏳ Laden…';
+  try {
+    const snap = await getDoc(doc(db,'taalhelden_klassen',huidigKlas,'leerlingen',huidigNaam));
+    bouwTraject(snap.exists() ? snap.data().traject : {});
+    const vSnap = await getDoc(doc(db,'taalhelden_klassen',huidigKlas,'vragen',huidigNaam));
+    vragenLijst = vSnap.exists() ? (vSnap.data().lijst || []) : [];
+    bouwVragen();
+    document.getElementById('laad-status').textContent='';
+  } catch(e){ document.getElementById('laad-status').textContent='⚠️ Laadprobleem.'; }
+}
+</script>
+</body>
+</html>
